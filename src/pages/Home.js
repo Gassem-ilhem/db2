@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./Home.css";
 //import { toast } from "react-toastify";
 import axios from "axios";
@@ -25,6 +25,13 @@ const Home = () => {
       setTimeout(() => loadData(), 500);
     }
   };
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    axios.put("http://localhost:8000/api/put/{id}");
+    // .then( (resp)=> setState)
+  }, [id]);
 
   const searchHandle = (event) => {
     //let key1 = event.target.value;
@@ -72,7 +79,7 @@ const Home = () => {
                 <td>{item.Biograph}</td>
                 <td>{item.OEUVREId}</td>
                 <td>
-                  <Link /* to={"/update/${item.id}"}*/>
+                  <Link to={"/update/${item.id}"}>
                     <button className="btn btn-edit">Edit</button>
                   </Link>
                   <button
@@ -81,7 +88,7 @@ const Home = () => {
                   >
                     Delete
                   </button>
-                  <Link /*</td>to={"/view/${item.id}"}*/>
+                  <Link to={"/view/${item.id}"}>
                     <button className="btn btn-view">View</button>
                   </Link>
                 </td>

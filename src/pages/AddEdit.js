@@ -4,31 +4,17 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "./AddEdit.css";
 
-const initialState = {
-  NPArtiste: "",
-  DateNais: "",
-  LieuNais: "",
-  DateDeces: "",
-  LieuDeces: "",
-  Nation: "",
-  Biograph: "",
-  OEUVREId: "",
-};
-
 const AddEdit = () => {
-  const
-  const [state, setState] = useState(initialState);
+  const [NPArtiste, setNPArtiste] = useState("");
+  const [DateNais, setDateNais] = useState("");
+  const [LieuNais, setLieuNais] = useState("");
+  const [DateDeces, setDateDeces] = useState("");
+  const [LieuDeces, setLieuDeces] = useState("");
+  const [Nation, setNation] = useState("");
+  const [Biograph, setBiograph] = useState("");
+  const [OEUVREId, setOEUVREId] = useState(0);
 
-  const {
-    NPArtiste,
-    DateNais,
-    LieuNais,
-    DateDeces,
-    LieuDeces,
-    Nation,
-    Biograph,
-    OEUVREId,
-  } = state;
+  const [artistList, setartistList] = useState([]);
 
   const navigate = useNavigate();
 
@@ -39,39 +25,35 @@ const AddEdit = () => {
     } else {
       axios
         .post("http://localhost:8000/api/post", {
-          NPArtiste,
-          DateNais,
-          LieuNais,
-          DateDeces,
-          LieuDeces,
-          Nation,
-          Biograph,
-          OEUVREId,
+          NPArtiste: NPArtiste,
+          DateNais: DateNais,
+          LieuNais: LieuNais,
+          DateDeces: DateDeces,
+          LieuDeces: LieuDeces,
+          Nation: Nation,
+          Biograph: Biograph,
+          OEUVREId: OEUVREId,
         })
         .then(() => {
-          setState({
-            NPArtiste: "",
-            DateNais: "",
-            LieuNais: "",
-            DateDeces: "",
-            LieuDeces: "",
-            Nation: "",
-            Biograph: "",
-            OEUVREId: "",
-          });
-        })
-        .catch((err) => toast.error(err.response.data));
+          setartistList([
+            ...artistList,
+            {
+              NPArtiste: NPArtiste,
+              DateNais: DateNais,
+              LieuNais: LieuNais,
+              DateDeces: DateDeces,
+              LieuDeces: LieuDeces,
+              Nation: Nation,
+              Biograph: Biograph,
+              OEUVREId: OEUVREId,
+            },
+          ]);
+        });
+
       toast.success("Artiste Added Successfully");
       setTimeout(() => navigate("/"), 500);
     }
   };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    setState({ ...state, [name]: value });
-  };
-
   return (
     <div style={{ marginTop: "100px" }}>
       <form
@@ -87,8 +69,9 @@ const AddEdit = () => {
         <input
           type="text"
           id="NPArtiste"
-          onChange={handleInputChange}
-          value={NPArtiste}
+          onChange={(event) => {
+            setNPArtiste(event.target.value);
+          }}
           placeholder="Name Artist ..."
         />
 
@@ -97,8 +80,9 @@ const AddEdit = () => {
           type="date"
           id="DateNais"
           placeholder="DateNais Artist ..."
-          value={DateNais}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            setDateNais(event.target.value);
+          }}
         />
 
         <label htmlFor="LieuNais">LieuNais</label>
@@ -106,8 +90,9 @@ const AddEdit = () => {
           type="text"
           id="LieuNais"
           placeholder="LieuNais Artist ..."
-          value={LieuNais}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            setLieuNais(event.target.value);
+          }}
         />
 
         <label htmlFor="DateDeces">DateDeces</label>
@@ -115,8 +100,9 @@ const AddEdit = () => {
           type="date"
           id="DateDeces"
           placeholder="DateDeces Artist ..."
-          value={DateDeces}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            setDateDeces(event.target.value);
+          }}
         />
 
         <label htmlFor="LieuDeces">LieuDeces</label>
@@ -124,8 +110,9 @@ const AddEdit = () => {
           type="text"
           id="LieuDeces"
           placeholder="LieuDeces Artist ..."
-          value={LieuDeces}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            setLieuDeces(event.target.value);
+          }}
         />
 
         <label htmlFor="Nation">Nation</label>
@@ -133,8 +120,9 @@ const AddEdit = () => {
           type="text"
           id="Nation"
           placeholder="Nation Artist ..."
-          value={Nation}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            setNation(event.target.value);
+          }}
         />
 
         <label htmlFor="Biograph">Biograph</label>
@@ -142,8 +130,9 @@ const AddEdit = () => {
           type="text"
           id="Biograph"
           placeholder="Biograph Artist ..."
-          value={Biograph}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            setBiograph(event.target.value);
+          }}
         />
 
         <label htmlFor="OEUVREId">OEUVREId</label>
@@ -151,8 +140,9 @@ const AddEdit = () => {
           type="number"
           id="OEUVREId"
           placeholder="OEUVREId Artist ..."
-          value={OEUVREId}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            setOEUVREId(event.target.value);
+          }}
         />
         <input type="submit" value="Save" />
         <Link to="/">
